@@ -24,14 +24,20 @@ class AnswersController < ApplicationController
   end
 
   def update
-  if @answer.update_attributes(params[:answer])
-    flash[:notice] = "Answer has been updated."
-    redirect_to [@question, @answer]
-  else
-    flash[:alert] = "Answer has not been updated."
-    render :action => "edit"
+    if @answer.update_attributes(params[:answer])
+      flash[:notice] = "Answer has been updated."
+      redirect_to [@question, @answer]
+    else
+      flash[:alert] = "Answer has not been updated."
+      render :action => "edit"
+    end
   end
-end
+
+  def destroy
+    @answer.destroy
+    flash[:notice] = "Answer has been deleted."
+    redirect_to @question
+  end
 
 private
   def find_question
