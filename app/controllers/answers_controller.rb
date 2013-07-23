@@ -20,6 +20,19 @@ class AnswersController < ApplicationController
   def show
   end
 
+  def edit
+  end
+
+  def update
+  if @answer.update_attributes(params[:answer])
+    flash[:notice] = "Answer has been updated."
+    redirect_to [@question, @answer]
+  else
+    flash[:alert] = "Answer has not been updated."
+    render :action => "edit"
+  end
+end
+
 private
   def find_question
     @question = Question.find(params[:question_id])
