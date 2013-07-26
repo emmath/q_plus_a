@@ -1,4 +1,5 @@
 class QuestionsController < ApplicationController
+  before_filter :authenticate_user!, except: [:index, :show]
   before_filter :find_question, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -11,11 +12,15 @@ class QuestionsController < ApplicationController
 
   def create
     @question = Question.new(params[:question])
+    #@question = current_user.question.build(params[:question])
+    #current_user.save
+    #@question.user_ids = [current_user.id]
     if @question.save
-      flash[:notice] = "Question has been created."
+      @question.users << current_user
+      flash[:notice] = "Question has been added"
       redirect_to @question
     else
-      flash[:alert] = "Question has not been created."
+      flash[:alert] = "Question has not been added"
       render action: "new"
     end
   end
@@ -29,13 +34,11 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if @question.update_attributes(params[:question])
+    @question.update_attributes(params[:question])
+    @question.users << current_user if not current_user.in? @question.users
+    @question.users |= [current_user]
       flash[:notice] = "Question has been updated."
       redirect_to @question
-    else
-      flash[:alert] = "Question has not been updated."
-      render action: "edit"
-    end
   end
 
   def destroy
@@ -44,12 +47,7 @@ class QuestionsController < ApplicationController
     redirect_to questions_path
   end
 
-private
   def find_question
     @question = Question.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-    flash[:alert] = "The question you were looking" +
-                    " for could not be found."
-    redirect_to questions_path
   end
 end

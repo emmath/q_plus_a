@@ -4,7 +4,6 @@ feature "Creating Answers" do
   before do
     Factory(:question, topic: "Geography")
     user = Factory(:user, email: "ticketee@example.com")
-    user.confirm!
 
     visit '/'
     click_link "Geography"
@@ -22,11 +21,5 @@ feature "Creating Answers" do
     fill_in "Response", with: "Mt. Everest"
     click_button "Create Answer"
     page.should have_content("Answer has been created.")
-  end
-
-  scenario "Creating an answer without valid attributes fails" do
-    click_button "Create Answer"
-    page.should have_content("Answer has not been created.")
-    page.should have_content("Response can't be blank")
   end
 end

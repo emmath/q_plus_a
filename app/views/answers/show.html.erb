@@ -1,5 +1,5 @@
 <div id='answer'>
-  <h2><%= @answer.title %></h2>
+  <h2><%= @answer.response %></h2>
   <span id='author'>Created by <%= @answer.user.email %></span>
   <%= link_to "Edit Answer", [:edit, @question, @answer] %>
   <%= link_to "Delete Answer", [@question, @answer], :method => :delete,

@@ -7,14 +7,14 @@ feature 'Creating Questions' do
   end
 
   scenario "can create a question" do
-    fill_in 'Topic', :with => 'Animal Kingdom'
-    fill_in 'Description', :with => "A question pertaining to animals"
+    fill_in 'Topic', :with => 'lalala'
+    fill_in 'Description', :with => "this is the question"
     click_button 'Create Question'
     page.should have_content('Question has been created.')
 
-    question = Question.find_by_topic("Animal Kingdom")
+    question = Question.find_by_topic("lalala")
     page.current_url.should == question_url(question)
-    title = "Animal Kingdom - Questions - Q_Plus_A"
+    title = "lalala - Questions - Q_Plus_A"
     find("title").should have_content(title)
   end
 

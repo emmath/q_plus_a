@@ -1,5 +1,12 @@
 <% title(@question.topic, "Questions") %>
+
 <h2><%= @question.topic %></h2>
+<h2><%= @question.description %></h2>
+
+<% @question.users.each do |user| %>
+  <%= user.email %><br>
+<% end %>
+
 <%= link_to "Edit Question", edit_question_path(@question) %>
 <%= link_to "Delete Question",
             question_path(@question),
